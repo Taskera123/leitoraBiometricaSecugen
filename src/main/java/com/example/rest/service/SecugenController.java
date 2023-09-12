@@ -32,7 +32,7 @@ public class SecugenController {
     String base64File=null;
 
     @CrossOrigin(origins="*", allowedHeaders="*")
-    @GetMapping("/leitora")
+    @GetMapping("/escanear")
     public Secugen fingerprint()
     {
         JSGFPLib sgfplib = new JSGFPLib();

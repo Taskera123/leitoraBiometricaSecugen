@@ -1,41 +1,31 @@
-# Secugen fingerprint REST API
+- Captura e verificação de digitais
 
-spring-boot rest api for secugen fingerprint scanner.
+## Setup do projeto
 
-- Capture and Verify fingerprints
+- Instale o JDK_17.02 ou acima
+- Add a variavel local do JAVA
+- Instale o Secugen WBFD driver
 
-## Project Setup
+## Startar o projeto
 
-- Install JDK_17.02 or above
-- Add Java to System Variables
-  - Add java path
-  - Add JAVA_HOME
-- Install Secugen WBFD driver
-
-- Copy secugen DLL files to windows
-
-## Running Project
-
-```
 mvn spring-boot:run
-```
 
-http://localhost:9090/fingerprint \
+http://localhost:8083/escanear \
 Method : Get
 
-Creates a new fingerprint. It will return base64 image of the fingerprint and also the Minutae data which can be stored in database to verify fingerprints.
+Cria uma nova imagem da digital. Retorna uma base64 e uma timestamp para auxiliar na verificação das digitais.
 
-http://localhost:9090/verify \
+http://localhost:8083/verificar \
 Method: Post\
 body: fingerprint data\
-Verifies fingerprint. You need to pass minutae data saved in database to verify fingerprint.
+
+Verifica a digital. Tem que passar o tempo salvo na base para verificar a digital
 
 ## Sources
 
 https://secugen.com
 
-## Documentation
-
-[Software Installation and Drivers](https://webapi.secugen.com/docs/SECUGEN_WEB_SERVICE_API_DOC.pdf)\
-[Downloads](https://secugen.com/drivers/)\
-[Guides](https://secugen.com/guides/)
+## Documentação
+(https://webapi.secugen.com/docs/SECUGEN_WEB_SERVICE_API_DOC.pdf)\
+(https://secugen.com/drivers/)\
+(https://secugen.com/guides/)
