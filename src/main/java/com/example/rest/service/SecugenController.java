@@ -31,8 +31,8 @@ public class SecugenController {
     String base64Image=null;
     String base64File=null;
 
-    @CrossOrigin(origins="*", allowedHeaders="*")
-    @GetMapping("/escanear")
+    //@CrossOrigin(origins="*", allowedHeaders="*")
+    @GetMapping("/capturar")
     public Secugen fingerprint()
     {
         JSGFPLib sgfplib = new JSGFPLib();

@@ -36,7 +36,7 @@ public class VerifyFingerprintController {
     PrintStream fp = null;
 
     // @CrossOrigin(origins="http://localhost:3000")
-    @CrossOrigin(origins="*")
+   // @CrossOrigin(origins="*")
     @PostMapping("/verificar")
     @ResponseBody
     public VerifyFinger verifyprint(@RequestBody String minutae)
