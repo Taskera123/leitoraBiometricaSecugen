@@ -17,6 +17,7 @@ public class SecugenController {
 
 	public static long check ;
 	public static long err ;
+	public static long minex ;
 	public static long porta ;
 	public static long leitora ;
 	public static long imagemGerada ;
@@ -33,18 +34,23 @@ public class SecugenController {
     PrintStream fp = null;
     String base64Image=null;
     String base64File=null;
-    final int TIMEOUT_BIOMETRIA_MILISEGUNDOS = 3000;
 
     @GetMapping("/capturar")
     public Secugen fingerprint()
     {
+    	 /**
+         * Inicializa um temporizador para fazer a requisição esperar 30segundos para finalizar caso não ache nenhum dedo
+         */
+    	long startTime = System.currentTimeMillis();
+    	long endTime = startTime + 15000;
+    	
         JSGFPLib sgfplib = new JSGFPLib();
         if((sgfplib !=null) &&(sgfplib.jniLoadStatus!= SGFDxErrorCode.SGFDX_ERROR_JNI_DLLLOAD_FAILED))
         {
             System.out.println(sgfplib);
         }
         else{
-            return new Secugen(false,"Dispositivo não encontrado!","Arquvio não foi criado");
+            return new Secugen(false,"Dispositivo não encontrado!","Aplicação não irá funcionar!");
         }
 
        /**
@@ -54,20 +60,15 @@ public class SecugenController {
        
        
         /**
-         * GETING MINEX VERSION
+         * GETING MINEX VERSION ---- não sei pra que serve
          */
         int[] extractorVersion = new int[1];
         int[] matcherVersion = new int[1];
         /**
          * CALL MINEX VERSION GetMinexVersion()
          */
-        err = sgfplib.GetMinexVersion(extractorVersion, matcherVersion);
+        minex = sgfplib.GetMinexVersion(extractorVersion, matcherVersion);
         System.out.println(err);
-        /**
-         * EXTRACTOR VERSION , extractorVersion[0]
-         * MATCHER VERSION ,   matcherVersion[0]
-         */
-
 
        /**
         * Ligando a leitora biometrica , OpenDevice(number PORT)
@@ -75,10 +76,7 @@ public class SecugenController {
         */
         
 	    porta = sgfplib.OpenDevice(SGPPPortAddr.USB_AUTO_DETECT);
-	   // err= sgfplib.
-	   // System.out.println(sgfplib.OpenDevice(SGPPPortAddr.AUTO_DETECT));
-	   //err = sgfplib.OpenDevice(SGPPPortAddr.AUTO_DETECT);
-	   //System.out.println(sgfplib.OpenDevice(SGPPPortAddr.AUTO_DETECT));
+
     
         /**
          * pega as informações do dispositvo
@@ -187,7 +185,7 @@ public class SecugenController {
     			/**
     			 * Erro ao criar o base64 
     			 */
-    			//return new Secugen(false,"Erro ao capturar a digital, tente denovo","Arquivo não foi criado__Teste");
+    			
     		}
     	}
     	catch(Exception e)
@@ -197,12 +195,9 @@ public class SecugenController {
     		 */
     		leitora =sgfplib.SetLedOn(false);
     		
-    		/**
-    		 * Exceção da captura da digital
-    		 */
-    		//return new Secugen(false,"Erro ao capturar a digital, tente denovo","Arquivo não foi criado");
+    		
     	}
-    } while(imagemAux == false ) ;
+    } while(imagemAux == false && System.currentTimeMillis() < endTime  ) ;
     //&& segundosAgr <= segundiMaximaLoop
     System.out.println("imagem " +imagemAux);
     imagemAux = false;
