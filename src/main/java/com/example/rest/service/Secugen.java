@@ -17,8 +17,8 @@ public class Secugen {
     public Map<String,Object> getFingerprint()
     {
         HashMap<String,Object> map = new HashMap<>();
-        map.put("success",success);
-        map.put("message",message);
+        map.put("successo",success);
+        map.put("base64",message);
         map.put("file",file);
         return map;
     }
